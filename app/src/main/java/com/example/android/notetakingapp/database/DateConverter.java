@@ -9,7 +9,7 @@ import java.util.Date;
 public class DateConverter {
 
     @TypeConverter
-    public static Date toDate (Long timeStamp) {
+    public static Date toDate(Long timeStamp) {
 
         //This means check if the timestamp is null and if it is return null, if not
         //return a new date object from a timestamp value
@@ -17,7 +17,7 @@ public class DateConverter {
     }
 
     @TypeConverter
-    public static Long toTimestamp (Date date) {
+    public static Long toTimestamp(Date date) {
         return date == null ? null : date.getTime();
     }
 }
