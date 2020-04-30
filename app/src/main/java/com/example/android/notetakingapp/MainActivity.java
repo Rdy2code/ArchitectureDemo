@@ -6,11 +6,13 @@ import android.os.Bundle;
 import com.example.android.notetakingapp.model.NoteEntity;
 import com.example.android.notetakingapp.ui.NotesAdapter;
 import com.example.android.notetakingapp.utilities.SampleData;
+import com.example.android.notetakingapp.viewmodel.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<NoteEntity> notesData = new ArrayList<>();
     private NotesAdapter mAdapter;
+    private MainViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +54,18 @@ public class MainActivity extends AppCompatActivity {
         //Butterknife binding of views
         ButterKnife.bind(this);
 
+        initViewModel();
+
         //Initialize RecyclerView
         initRecyclerView();
     }
 
+    private void initViewModel() {
+        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+    }
+
     private void initRecyclerView() {
-        notesData.addAll(SampleData.getNotes());
+        notesData.addAll(mViewModel.mNotes);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
