@@ -52,4 +52,15 @@ public class AppRepository {
     private LiveData<List<NoteEntity>> getAllNotes() {
         return mDb.noteDao().getAll();
     }
+
+
+    //Need to use an executor when not returning a LiveData object
+    public void deleteAllNotes() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.noteDao().deleteAll();
+            }
+        });
+    }
 }
