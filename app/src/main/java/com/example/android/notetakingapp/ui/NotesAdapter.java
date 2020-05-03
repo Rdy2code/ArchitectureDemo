@@ -1,6 +1,7 @@
 package com.example.android.notetakingapp.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android.notetakingapp.EditorActivity;
 import com.example.android.notetakingapp.R;
 import com.example.android.notetakingapp.model.NoteEntity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.example.android.notetakingapp.constants.Constants.NOTE_ID;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
@@ -40,6 +45,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         //Get the current note
         NoteEntity note = mNotes.get(position);
         holder.mTextView.setText(note.getText());
+        holder.mFab.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, EditorActivity.class);
+            intent.putExtra(NOTE_ID, note.getId());
+            mContext.startActivity(intent);
+        });
     }
 
     @Override
@@ -51,6 +61,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
         @BindView(R.id.note_text)
         TextView mTextView;
+
+        @BindView(R.id.fab)
+        FloatingActionButton mFab;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

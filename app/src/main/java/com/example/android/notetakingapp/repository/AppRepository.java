@@ -19,7 +19,6 @@ public class AppRepository {
     private static volatile AppRepository sInstance;
     public LiveData<List<NoteEntity>> mNotes;
     private AppDatabase mDb;
-    private Executor executor = Executors.newSingleThreadExecutor();
 
     //Constructor provides the data
     private AppRepository(Context context) {
@@ -41,26 +40,27 @@ public class AppRepository {
     //Here is where we access the Room database on a background thread
     //Add the sample data to the database
     public void addSampleData() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mDb.noteDao().insertAll(SampleData.getNotes());
-            }
-        });
+        mDb.noteDao().insertAll(SampleData.getNotes());
     }
 
     private LiveData<List<NoteEntity>> getAllNotes() {
         return mDb.noteDao().getAll();
     }
 
-
     //Need to use an executor when not returning a LiveData object
     public void deleteAllNotes() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mDb.noteDao().deleteAll();
-            }
-        });
+        mDb.noteDao().deleteAll();
+    }
+
+    public NoteEntity getNoteById(int noteId) {
+        return mDb.noteDao().getNoteById(noteId);
+    }
+
+    public void saveNoteEntity(NoteEntity note) {
+        mDb.noteDao().insertNote(note);
+    }
+
+    public void deletNote(NoteEntity note) {
+        mDb.noteDao().deleteNote(note);
     }
 }

@@ -2,25 +2,20 @@ package com.example.android.notetakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.android.notetakingapp.model.NoteEntity;
-import com.example.android.notetakingapp.ui.NotesAdapter;
-import com.example.android.notetakingapp.utilities.SampleData;
-import com.example.android.notetakingapp.viewmodel.MainViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import com.example.android.notetakingapp.model.NoteEntity;
+import com.example.android.notetakingapp.ui.NotesAdapter;
+import com.example.android.notetakingapp.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,11 +53,9 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
 
         initViewModel();
-
     }
 
     private void initViewModel() {
-        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         Observer<List<NoteEntity>> notesObserver = new Observer<List<NoteEntity>>() {
             @Override
             public void onChanged(List<NoteEntity> noteEntities) {
@@ -79,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-
+        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mViewModel.mNotes.observe(this, notesObserver);
     }
 
@@ -87,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration divider = new DividerItemDecoration(
+                this, layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(divider);
     }
 
     @Override

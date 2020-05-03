@@ -101,4 +101,7 @@
     </string>
     <string name="hint_enter_note">Enter note</string>
     <string name="delete_all">Delete All</string>
+    <string name="title_new_note">New Note</string>
+    <string name="title_edit_note">Edit Note</string>
+    <string name="delete_note">Delete Note</string>
 </resources>

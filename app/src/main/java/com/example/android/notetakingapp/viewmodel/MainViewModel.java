@@ -10,11 +10,14 @@ import com.example.android.notetakingapp.model.NoteEntity;
 import com.example.android.notetakingapp.repository.AppRepository;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainViewModel extends AndroidViewModel {
 
     public LiveData<List<NoteEntity>> mNotes;
     private AppRepository mRepository;
+    private Executor executor = Executors.newSingleThreadExecutor();
 
     //ViewModel constructor initializes the Repository class and gets the data from this class
     public MainViewModel(@NonNull Application application) {
@@ -26,10 +29,20 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void addSampleData() {
-        mRepository.addSampleData();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mRepository.addSampleData();
+            }
+        });
     }
 
     public void deleteData() {
-        mRepository.deleteAllNotes();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mRepository.deleteAllNotes();
+            }
+        });
     }
 }
